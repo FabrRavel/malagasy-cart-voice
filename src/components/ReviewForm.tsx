@@ -75,7 +75,7 @@ const ReviewForm = ({ productId, onReviewSubmit }: ReviewFormProps) => {
     });
   };
 
-  // Example reviews with different sentiments
+  // Example reviews with different sentiments - expanded with more examples
   const exampleReviews = [
     {
       sentiment: 'positive',
@@ -85,7 +85,14 @@ const ReviewForm = ({ productId, onReviewSubmit }: ReviewFormProps) => {
         "Excellent rapport qualité-prix, livraison rapide.",
         "Tena tsara ny entana, mahafinaritra be.",
         "Produit bien emballé et de qualité exceptionnelle.",
-        "Ce produit est vraiment délicieux et facile à préparer."
+        "Ce produit est vraiment délicieux et facile à préparer.",
+        "Magnifique qualité, je suis très satisfait de mon achat.",
+        "Je recommande vivement, c'est le meilleur produit dans sa catégorie.",
+        "Emballage parfait et livraison super rapide, je suis conquis !",
+        "La qualité est incroyable, je vais certainement commander à nouveau.",
+        "Tena nahafaly ahy io vokatra io, tsara be ny nofiny.",
+        "Ce produit a dépassé toutes mes attentes, vraiment exceptionnel.",
+        "Service client impeccable et produit de très haute qualité."
       ]
     },
     {
@@ -96,7 +103,14 @@ const ReviewForm = ({ productId, onReviewSubmit }: ReviewFormProps) => {
         "Ratsy ny kalitao, tsy mendrika ny vidiny.",
         "Produit cassé à l'arrivée, emballage insuffisant.",
         "Le goût n'est pas authentique, je ne recommande pas.",
-        "Trop cher pour ce que c'est, n'achetez pas."
+        "Trop cher pour ce que c'est, n'achetez pas.",
+        "Très déçu de ce produit, la qualité est bien inférieure à ce que j'attendais.",
+        "Service client horrible, je ne commanderai plus jamais ici.",
+        "Le produit est arrivé en retard et dans un état déplorable.",
+        "Vraiment mauvaise expérience, le produit ne fonctionne pas du tout.",
+        "Tsy mahafa-po mihitsy, very ny volako.",
+        "Le produit est complètement différent de la description, c'est une arnaque.",
+        "Ne perdez pas votre argent, ce produit est de très mauvaise qualité."
       ]
     },
     {
