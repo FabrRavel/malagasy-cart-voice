@@ -1,8 +1,8 @@
 
 // This is a simplified sentiment analysis model for educational purposes
-// In a real application, you would use scikit-learn and joblib as mentioned
+// In a real application, you would use scikit-learn and joblib as mentioned in the requirements
 
-// Basic sentiment lexicon
+// Basic sentiment lexicon in French/Malagasy
 const positiveLexicon = [
   'bien', 'bon', 'excellente', 'super', 'magnifique', 'génial', 'parfait',
   'incroyable', 'merveilleux', 'agréable', 'fantastique', 'délicieux',
@@ -19,7 +19,11 @@ const negativeLexicon = [
   'arnaque', 'escroquerie', 'ennuyeux', 'ordinaire', 'pire', 'jamais'
 ];
 
-// Simple sentiment analysis function
+/**
+ * Analyzes the sentiment of a given text written by a user.
+ * This function does NOT generate any text, it only analyzes existing text.
+ * In a real application, scikit-learn and joblib would be used for more accurate analysis.
+ */
 export const analyzeSentiment = (text: string): 'positive' | 'negative' | 'neutral' => {
   // Convert to lowercase and prepare the text
   const processedText = text.toLowerCase();

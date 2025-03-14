@@ -40,7 +40,7 @@ const ReviewForm = ({ productId, onReviewSubmit }: ReviewFormProps) => {
       return;
     }
     
-    // Analyze sentiment
+    // Analyze sentiment of the customer's review
     const sentiment = analyzeSentiment(content);
     
     // Create new review
@@ -116,11 +116,14 @@ const ReviewForm = ({ productId, onReviewSubmit }: ReviewFormProps) => {
             <Textarea
               value={content}
               onChange={(e) => setContent(e.target.value)}
-              placeholder="Partagez votre expérience avec ce produit..."
+              placeholder="Partagez votre expérience personnelle avec ce produit..."
               rows={4}
               className="resize-none"
               required
             />
+            <p className="text-xs text-gray-500 mt-1">
+              Notre système analysera automatiquement le sentiment de votre avis une fois soumis.
+            </p>
           </div>
           
           <Button type="submit" className="w-full button-hover">
