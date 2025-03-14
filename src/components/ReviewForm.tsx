@@ -6,6 +6,14 @@ import { analyzeSentiment } from '@/utils/sentimentAnalysis';
 import { useCart } from '@/context/CartContext';
 import { reviews } from '@/data/products';
 import { toast } from '@/components/ui/use-toast';
+import { ScrollArea } from '@/components/ui/scroll-area';
+import { 
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
+import { ThumbsUp, ThumbsDown, Minus } from 'lucide-react';
 
 interface ReviewFormProps {
   productId: number;
@@ -66,6 +74,43 @@ const ReviewForm = ({ productId, onReviewSubmit }: ReviewFormProps) => {
       description: "Votre avis a été ajouté avec succès.",
     });
   };
+
+  // Example reviews with different sentiments
+  const exampleReviews = [
+    {
+      sentiment: 'positive',
+      icon: <ThumbsUp className="h-4 w-4 text-green-600" />,
+      examples: [
+        "Très bon produit ! J'adore le goût authentique.",
+        "Excellent rapport qualité-prix, livraison rapide.",
+        "Tena tsara ny entana, mahafinaritra be.",
+        "Produit bien emballé et de qualité exceptionnelle.",
+        "Ce produit est vraiment délicieux et facile à préparer."
+      ]
+    },
+    {
+      sentiment: 'negative',
+      icon: <ThumbsDown className="h-4 w-4 text-red-600" />,
+      examples: [
+        "Déçu par la qualité, ne vaut pas le prix.",
+        "Ratsy ny kalitao, tsy mendrika ny vidiny.",
+        "Produit cassé à l'arrivée, emballage insuffisant.",
+        "Le goût n'est pas authentique, je ne recommande pas.",
+        "Trop cher pour ce que c'est, n'achetez pas."
+      ]
+    },
+    {
+      sentiment: 'neutral',
+      icon: <Minus className="h-4 w-4 text-gray-600" />,
+      examples: [
+        "Livraison dans les délais prévus.",
+        "Produit conforme à la description.",
+        "Qualité correcte pour le prix.",
+        "Emballage standard, rien d'exceptionnel.",
+        "Tsy ratsy tsy tsara, antonony fotsiny."
+      ]
+    }
+  ];
   
   return (
     <div className="bg-white rounded-lg border border-gray-100 p-5 animate-fade-in">
@@ -131,6 +176,43 @@ const ReviewForm = ({ productId, onReviewSubmit }: ReviewFormProps) => {
           </Button>
         </form>
       )}
+
+      {/* Examples of reviews with different sentiments */}
+      <div className="mt-6 pt-4 border-t border-gray-100">
+        <Accordion type="single" collapsible className="w-full">
+          <AccordionItem value="examples">
+            <AccordionTrigger className="text-sm font-medium text-gray-700">
+              Exemples d'avis et sentiments
+            </AccordionTrigger>
+            <AccordionContent>
+              <ScrollArea className="h-64 rounded-md border p-2">
+                <div className="space-y-6 pr-3">
+                  {exampleReviews.map((category, idx) => (
+                    <div key={idx} className="space-y-2">
+                      <div className="flex items-center gap-2 font-medium">
+                        {category.icon}
+                        <span className="capitalize">{category.sentiment}</span>
+                      </div>
+                      
+                      <ul className="space-y-2">
+                        {category.examples.map((example, i) => (
+                          <li 
+                            key={i} 
+                            className="text-sm p-2 rounded-md bg-gray-50 hover:bg-gray-100 cursor-pointer transition-colors"
+                            onClick={() => setContent(example)}
+                          >
+                            "{example}"
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  ))}
+                </div>
+              </ScrollArea>
+            </AccordionContent>
+          </AccordionItem>
+        </Accordion>
+      </div>
     </div>
   );
 };
