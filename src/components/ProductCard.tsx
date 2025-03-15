@@ -13,24 +13,15 @@ interface ProductCardProps {
 
 const ProductCard = ({ product }: ProductCardProps) => {
   const { addItem } = useCart();
-  const [imageLoaded, setImageLoaded] = useState(false);
+  // Remove the image loading state - images will show immediately
   
   return (
     <div className="group bg-white rounded-lg overflow-hidden border border-gray-100 shadow-sm card-hover animate-slide-in">
       <Link to={`/product/${product.id}`} className="block relative aspect-square overflow-hidden bg-gray-100">
-        {!imageLoaded && (
-          <div className="absolute inset-0 flex items-center justify-center">
-            <div className="w-8 h-8 border-2 border-gray-300 border-t-gray-600 rounded-full animate-spin"></div>
-          </div>
-        )}
         <img 
           src={product.image} 
           alt={product.name} 
-          className={cn(
-            "w-full h-full object-cover transition-all duration-500 group-hover:scale-105",
-            imageLoaded ? "opacity-100" : "opacity-0"
-          )}
-          onLoad={() => setImageLoaded(true)}
+          className="w-full h-full object-cover transition-all duration-500 group-hover:scale-105"
         />
         {product.images.length > 1 && (
           <div className="absolute top-2 right-2 bg-white/80 backdrop-blur-sm rounded-full p-1.5 shadow-sm">
