@@ -4,11 +4,19 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { products, reviews as allReviews, Review, formatPrice } from '@/data/products';
 import Navbar from '@/components/Navbar';
 import { Button } from '@/components/ui/button';
-import { ShoppingCart, ChevronLeft, ShieldCheck, Star } from 'lucide-react';
+import { ShoppingCart, ChevronLeft, ShieldCheck, Star, Images } from 'lucide-react';
 import { useCart } from '@/context/CartContext';
 import ReviewComponent from '@/components/Review';
 import ReviewForm from '@/components/ReviewForm';
 import { cn } from '@/lib/utils';
+import { 
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+} from "@/components/ui/carousel";
+import { AspectRatio } from '@/components/ui/aspect-ratio';
 
 const ProductDetail = () => {
   const { id } = useParams<{ id: string }>();
@@ -19,7 +27,8 @@ const ProductDetail = () => {
   const [product, setProduct] = useState(products.find(p => p.id === productId));
   const [reviews, setReviews] = useState<Review[]>([]);
   const [quantity, setQuantity] = useState(1);
-  const [imageLoaded, setImageLoaded] = useState(false);
+  const [imagesLoaded, setImagesLoaded] = useState<Record<string, boolean>>({});
+  const [selectedImageIndex, setSelectedImageIndex] = useState(0);
   
   const isPurchased = purchasedItems.includes(productId);
   
@@ -41,6 +50,10 @@ const ProductDetail = () => {
   
   const handleReviewSubmit = (newReview: Review) => {
     setReviews(prevReviews => [newReview, ...prevReviews]);
+  };
+  
+  const handleImageLoad = (imageUrl: string) => {
+    setImagesLoaded(prev => ({ ...prev, [imageUrl]: true }));
   };
   
   if (!product) {
@@ -72,22 +85,61 @@ const ProductDetail = () => {
           </div>
           
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-16">
-            {/* Product Image */}
-            <div className="rounded-lg overflow-hidden border border-gray-100 bg-white shadow-sm relative">
-              {!imageLoaded && (
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <div className="w-10 h-10 border-2 border-gray-300 border-t-gray-600 rounded-full animate-spin"></div>
-                </div>
-              )}
-              <img 
-                src={product.image} 
-                alt={product.name} 
-                className={cn(
-                  "w-full h-full object-cover aspect-square",
-                  imageLoaded ? "opacity-100" : "opacity-0"
-                )}
-                onLoad={() => setImageLoaded(true)}
-              />
+            {/* Product Images */}
+            <div className="space-y-4">
+              {/* Main Carousel */}
+              <Carousel className="w-full">
+                <CarouselContent>
+                  {product.images.map((image, index) => (
+                    <CarouselItem key={index}>
+                      <div className="p-1">
+                        <div className="overflow-hidden rounded-lg border border-gray-100 bg-white shadow-sm relative">
+                          <AspectRatio ratio={1 / 1}>
+                            {!imagesLoaded[image] && (
+                              <div className="absolute inset-0 flex items-center justify-center">
+                                <div className="w-10 h-10 border-2 border-gray-300 border-t-gray-600 rounded-full animate-spin"></div>
+                              </div>
+                            )}
+                            <img
+                              src={image}
+                              alt={`${product.name} - Image ${index + 1}`}
+                              className={cn(
+                                "w-full h-full object-cover",
+                                imagesLoaded[image] ? "opacity-100" : "opacity-0"
+                              )}
+                              onLoad={() => handleImageLoad(image)}
+                            />
+                          </AspectRatio>
+                        </div>
+                      </div>
+                    </CarouselItem>
+                  ))}
+                </CarouselContent>
+                <CarouselPrevious className="left-2" />
+                <CarouselNext className="right-2" />
+              </Carousel>
+              
+              {/* Thumbnails */}
+              <div className="flex space-x-2 overflow-x-auto pb-2">
+                {product.images.map((image, index) => (
+                  <button
+                    key={index}
+                    className={cn(
+                      "flex-shrink-0 w-20 h-20 rounded-md overflow-hidden border-2",
+                      index === selectedImageIndex
+                        ? "border-primary"
+                        : "border-transparent hover:border-gray-300"
+                    )}
+                    onClick={() => setSelectedImageIndex(index)}
+                  >
+                    <img
+                      src={image}
+                      alt={`Thumbnail ${index + 1}`}
+                      className="w-full h-full object-cover"
+                    />
+                  </button>
+                ))}
+              </div>
             </div>
             
             {/* Product Details */}

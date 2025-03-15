@@ -2,7 +2,7 @@
 import { Product, formatPrice } from '@/data/products';
 import { useCart } from '@/context/CartContext';
 import { Button } from '@/components/ui/button';
-import { ShoppingCart, Star } from 'lucide-react';
+import { ShoppingCart, Star, Images } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { useState } from 'react';
 import { cn } from '@/lib/utils';
@@ -32,6 +32,11 @@ const ProductCard = ({ product }: ProductCardProps) => {
           )}
           onLoad={() => setImageLoaded(true)}
         />
+        {product.images.length > 1 && (
+          <div className="absolute top-2 right-2 bg-white/80 backdrop-blur-sm rounded-full p-1.5 shadow-sm">
+            <Images className="h-4 w-4 text-gray-700" />
+          </div>
+        )}
         <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
       </Link>
       

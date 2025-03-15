@@ -5,6 +5,7 @@ export interface Product {
   description: string;
   price: number;
   image: string;
+  images: string[];
   category: string;
 }
 
@@ -31,6 +32,11 @@ export const products: Product[] = [
     description: "Chapeau traditionnel malgache tissé à la main avec des fibres naturelles.",
     price: 25000,
     image: "https://images.unsplash.com/photo-1495709747088-f4d40871ae9b?q=80&w=1600&auto=format&fit=crop",
+    images: [
+      "https://images.unsplash.com/photo-1495709747088-f4d40871ae9b?q=80&w=1600&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1490312278390-ab64016e0aa9?q=80&w=1600&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1522844990619-4951c40f7eda?q=80&w=1600&auto=format&fit=crop"
+    ],
     category: "Artisanat"
   },
   {
@@ -39,6 +45,11 @@ export const products: Product[] = [
     description: "Tissu traditionnel malgache utilisé pour diverses cérémonies.",
     price: 50000,
     image: "https://images.unsplash.com/photo-1589041087771-44ba37029128?q=80&w=1600&auto=format&fit=crop",
+    images: [
+      "https://images.unsplash.com/photo-1589041087771-44ba37029128?q=80&w=1600&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1565297163728-b43e8b01bb44?q=80&w=1600&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1609250291996-fdebe6020a8f?q=80&w=1600&auto=format&fit=crop"
+    ],
     category: "Textile"
   },
   {
@@ -47,6 +58,11 @@ export const products: Product[] = [
     description: "Délicieuse spécialité culinaire malgache à base de bananes et d'arachides.",
     price: 5000,
     image: "https://images.unsplash.com/photo-1528750924720-e357890953b2?q=80&w=1600&auto=format&fit=crop",
+    images: [
+      "https://images.unsplash.com/photo-1528750924720-e357890953b2?q=80&w=1600&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1532465909-4e0278962a2b?q=80&w=1600&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1626808642875-0aa545182bad?q=80&w=1600&auto=format&fit=crop"
+    ],
     category: "Nourriture"
   },
   {
@@ -55,6 +71,11 @@ export const products: Product[] = [
     description: "Sculpture artisanale en bois représentant des motifs traditionnels malgaches.",
     price: 35000,
     image: "https://images.unsplash.com/photo-1610149579549-e9bec47551cf?q=80&w=1600&auto=format&fit=crop",
+    images: [
+      "https://images.unsplash.com/photo-1610149579549-e9bec47551cf?q=80&w=1600&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1533776992670-a872b591d9e1?q=80&w=1600&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1534237710431-e2fc698436d0?q=80&w=1600&auto=format&fit=crop"
+    ],
     category: "Artisanat"
   },
   {
@@ -63,6 +84,11 @@ export const products: Product[] = [
     description: "Instrument de musique traditionnel malgache fait de bambou.",
     price: 75000,
     image: "https://images.unsplash.com/photo-1619452886913-1c31ed3d613b?q=80&w=1600&auto=format&fit=crop",
+    images: [
+      "https://images.unsplash.com/photo-1619452886913-1c31ed3d613b?q=80&w=1600&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1621784166258-c3c9665ea3bd?q=80&w=1600&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1514119412350-e174d90d280e?q=80&w=1600&auto=format&fit=crop"
+    ],
     category: "Musique"
   },
   {
@@ -71,6 +97,11 @@ export const products: Product[] = [
     description: "Panier tressé à la main avec du raphia malgache.",
     price: 15000,
     image: "https://images.unsplash.com/photo-1580421383874-31c1abafae23?q=80&w=1600&auto=format&fit=crop",
+    images: [
+      "https://images.unsplash.com/photo-1580421383874-31c1abafae23?q=80&w=1600&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1549307013-5b9e01de9144?q=80&w=1600&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1580421383872-20c74a053afb?q=80&w=1600&auto=format&fit=crop"
+    ],
     category: "Artisanat"
   },
   {
@@ -79,6 +110,11 @@ export const products: Product[] = [
     description: "Plante endémique de Madagascar, aussi connue sous le nom d'arbre du voyageur.",
     price: 40000,
     image: "https://images.unsplash.com/photo-1588051454451-3e935ddd902e?q=80&w=1600&auto=format&fit=crop",
+    images: [
+      "https://images.unsplash.com/photo-1588051454451-3e935ddd902e?q=80&w=1600&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1597848212624-a19eb35e2651?q=80&w=1600&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1598512752271-33f913a5af13?q=80&w=1600&auto=format&fit=crop"
+    ],
     category: "Plantes"
   },
   {
@@ -87,6 +123,11 @@ export const products: Product[] = [
     description: "Café premium cultivé dans les hauts plateaux de Madagascar.",
     price: 20000,
     image: "https://images.unsplash.com/photo-1611854779393-1b2da9d400fe?q=80&w=1600&auto=format&fit=crop",
+    images: [
+      "https://images.unsplash.com/photo-1611854779393-1b2da9d400fe?q=80&w=1600&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1509042239860-f550ce710b93?q=80&w=1600&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1605800558973-2e78d4d65a93?q=80&w=1600&auto=format&fit=crop"
+    ],
     category: "Nourriture"
   }
 ];

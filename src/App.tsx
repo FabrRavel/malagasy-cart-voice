@@ -16,7 +16,7 @@ const queryClient = new QueryClient({
     queries: {
       // Configurer react-query pour mieux fonctionner hors ligne
       staleTime: Infinity,
-      cacheTime: Infinity,
+      gcTime: Infinity, // Previously called cacheTime in v4
       retry: false,
       refetchOnWindowFocus: false,
       refetchOnMount: false,
