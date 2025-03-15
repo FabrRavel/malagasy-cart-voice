@@ -9,8 +9,21 @@ import Index from "./pages/Index";
 import ProductDetail from "./pages/ProductDetail";
 import Cart from "./pages/Cart";
 import NotFound from "./pages/NotFound";
+import OfflineNotification from "./components/OfflineNotification";
 
-const queryClient = new QueryClient();
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      // Configurer react-query pour mieux fonctionner hors ligne
+      staleTime: Infinity,
+      cacheTime: Infinity,
+      retry: false,
+      refetchOnWindowFocus: false,
+      refetchOnMount: false,
+      refetchOnReconnect: false,
+    },
+  },
+});
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
@@ -26,6 +39,7 @@ const App = () => (
             <Route path="*" element={<NotFound />} />
           </Routes>
         </BrowserRouter>
+        <OfflineNotification />
       </CartProvider>
     </TooltipProvider>
   </QueryClientProvider>

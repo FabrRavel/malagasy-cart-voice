@@ -2,6 +2,7 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { Product, currentUser } from '../data/products';
 import { toast } from '@/components/ui/use-toast';
+import { initIndexedDB, saveDataToIndexedDB, getDataFromIndexedDB } from '@/utils/indexedDB';
 
 interface CartItem {
   product: Product;
@@ -27,6 +28,7 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const [purchasedItems, setPurchasedItems] = useState<number[]>(
     currentUser.purchasedProducts || []
   );
+  const [isDBInitialized, setIsDBInitialized] = useState(false);
   
   // Calculate total items
   const totalItems = items.reduce((total, item) => total + item.quantity, 0);
@@ -37,36 +39,106 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
     0
   );
 
-  // Load cart from localStorage on component mount
+  // Initialize IndexedDB
   useEffect(() => {
-    const savedCart = localStorage.getItem('cart');
-    if (savedCart) {
+    const initDB = async () => {
       try {
-        setItems(JSON.parse(savedCart));
+        await initIndexedDB();
+        setIsDBInitialized(true);
       } catch (error) {
-        console.error('Failed to parse saved cart', error);
+        console.error('Failed to initialize IndexedDB', error);
+        // Fallback to localStorage if IndexedDB fails
+        setIsDBInitialized(true);
       }
-    }
+    };
     
-    const savedPurchases = localStorage.getItem('purchasedItems');
-    if (savedPurchases) {
-      try {
-        setPurchasedItems(JSON.parse(savedPurchases));
-      } catch (error) {
-        console.error('Failed to parse saved purchases', error);
-      }
-    }
+    initDB();
   }, []);
 
-  // Save cart to localStorage whenever it changes
+  // Load cart and purchases from IndexedDB or localStorage
   useEffect(() => {
-    localStorage.setItem('cart', JSON.stringify(items));
-  }, [items]);
+    if (!isDBInitialized) return;
+    
+    const loadData = async () => {
+      try {
+        // Try to get data from IndexedDB
+        const cartData = await getDataFromIndexedDB('cart');
+        if (cartData) {
+          setItems(cartData);
+        } else {
+          // Fallback to localStorage for cart
+          const savedCart = localStorage.getItem('cart');
+          if (savedCart) {
+            try {
+              setItems(JSON.parse(savedCart));
+              // Also save to IndexedDB for future use
+              await saveDataToIndexedDB('cart', JSON.parse(savedCart));
+            } catch (error) {
+              console.error('Failed to parse saved cart', error);
+            }
+          }
+        }
+        
+        // Try to get purchases from IndexedDB
+        const purchasesData = await getDataFromIndexedDB('purchases');
+        if (purchasesData) {
+          setPurchasedItems(purchasesData);
+        } else {
+          // Fallback to localStorage for purchases
+          const savedPurchases = localStorage.getItem('purchasedItems');
+          if (savedPurchases) {
+            try {
+              setPurchasedItems(JSON.parse(savedPurchases));
+              // Also save to IndexedDB for future use
+              await saveDataToIndexedDB('purchases', JSON.parse(savedPurchases));
+            } catch (error) {
+              console.error('Failed to parse saved purchases', error);
+            }
+          }
+        }
+      } catch (error) {
+        console.error('Error loading data', error);
+      }
+    };
+    
+    loadData();
+  }, [isDBInitialized]);
+
+  // Save cart to IndexedDB and localStorage whenever it changes
+  useEffect(() => {
+    if (!isDBInitialized) return;
+    
+    const saveCart = async () => {
+      try {
+        await saveDataToIndexedDB('cart', items);
+        localStorage.setItem('cart', JSON.stringify(items));
+      } catch (error) {
+        console.error('Error saving cart', error);
+        // Fallback to just localStorage
+        localStorage.setItem('cart', JSON.stringify(items));
+      }
+    };
+    
+    saveCart();
+  }, [items, isDBInitialized]);
   
-  // Save purchased items to localStorage whenever it changes
+  // Save purchased items to IndexedDB and localStorage whenever it changes
   useEffect(() => {
-    localStorage.setItem('purchasedItems', JSON.stringify(purchasedItems));
-  }, [purchasedItems]);
+    if (!isDBInitialized) return;
+    
+    const savePurchases = async () => {
+      try {
+        await saveDataToIndexedDB('purchases', purchasedItems);
+        localStorage.setItem('purchasedItems', JSON.stringify(purchasedItems));
+      } catch (error) {
+        console.error('Error saving purchases', error);
+        // Fallback to just localStorage
+        localStorage.setItem('purchasedItems', JSON.stringify(purchasedItems));
+      }
+    };
+    
+    savePurchases();
+  }, [purchasedItems, isDBInitialized]);
 
   // Add item to cart
   const addItem = (product: Product, quantity = 1) => {
